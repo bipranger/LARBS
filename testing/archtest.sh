@@ -13,7 +13,7 @@ dialog --defaultno --title "DON'T BE A BRAINLET!" --yesno "Do you think I'm memi
 
 dialog --no-cancel --inputbox "Enter a name for your computer." 10 60 2> comp
 
-dialog --defaultno --title "Time Zone select" --yesno "Do you want use the default time zone(America/New_York)?.\n\nPress no for select your own time zone"  10 60 && echo "America/New_York" > tz.tmp || tzselect > tz.tmp
+dialog --defaultno --title "Time Zone select" --yesno "Do you want use the default time zone(America/Belem)?.\n\nPress no for select your own time zone"  10 60 && echo "America/Belem" > tz.tmp || tzselect > tz.tmp
 
 dialog --no-cancel --inputbox "Enter partitionsize in gb, separated by space (swap & root)." 10 60 2>psize
 
@@ -75,13 +75,23 @@ mount /dev/sda1 /mnt/boot
 mkdir -p /mnt/home
 mount /dev/sda4 /mnt/home
 
+echo "
+Server = http://archlinux.c3sl.ufpr.br/$repo/os/$arch
+Server = http://www.caco.ic.unicamp.br/archlinux/$repo/os/$arch
+Server = https://www.caco.ic.unicamp.br/archlinux/$repo/os/$arch
+Server = http://linorg.usp.br/archlinux/$repo/os/$arch
+Server = http://pet.inf.ufsc.br/mirrors/archlinux/$repo/os/$arch
+Server = http://archlinux.pop-es.rnp.br/$repo/os/$arch
+Server = http://mirror.ufam.edu.br/archlinux/$repo/os/$arch
+Server = http://mirror.ufscar.br/archlinux/$repo/os/$arch
+" >> /etc/pacman.d/mirrorlist
 
 pacstrap /mnt base base-devel
 
 genfstab -U /mnt >> /mnt/etc/fstab
 cp tz.tmp /mnt/tzfinal.tmp
 rm tz.tmp
-curl https://raw.githubusercontent.com/LukeSmithxyz/LARBS/master/testing/chroot.sh > /mnt/chroot.sh && arch-chroot /mnt bash chroot.sh && rm /mnt/chroot.sh
+curl https://raw.githubusercontent.com/bipranger/LARBS/master/testing/chroot.sh > /mnt/chroot.sh && arch-chroot /mnt bash chroot.sh && rm /mnt/chroot.sh
 
 ### BEGIN
 arch-chroot /mnt echo "root:$pass" | chpasswd
@@ -103,7 +113,7 @@ systemctl start NetworkManager
 pacman --noconfirm --needed -S grub && grub-install --target=i386-pc /dev/sda && grub-mkconfig -o /boot/grub/grub.cfg
 
 pacman --noconfirm --needed -S dialog
-larbs() { curl -O https://raw.githubusercontent.com/LukeSmithxyz/LARBS/master/src/larbs.sh && bash larbs.sh ;}
+larbs() { curl -O https://raw.githubusercontent.com/bipranger/LARBS/master/src/larbs.sh && bash larbs.sh ;}
 dialog --title "Install Luke's Rice" --yesno "This install script will easily let you access Luke's Auto-Rice Boostrapping Scripts (LARBS) which automatically install a full Arch Linux i3-gaps desktop environment.\n\nIf you'd like to install this, select yes, otherwise select no.\n\nLuke"  15 60 && larbs
 ### END
 

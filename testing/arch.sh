@@ -62,6 +62,18 @@ mount /dev/sda1 /mnt/boot
 mkdir -p /mnt/home
 mount /dev/sda4 /mnt/home
 
+
+echo "
+Server = http://archlinux.c3sl.ufpr.br/$repo/os/$arch
+Server = http://www.caco.ic.unicamp.br/archlinux/$repo/os/$arch
+Server = https://www.caco.ic.unicamp.br/archlinux/$repo/os/$arch
+Server = http://linorg.usp.br/archlinux/$repo/os/$arch
+Server = http://pet.inf.ufsc.br/mirrors/archlinux/$repo/os/$arch
+Server = http://archlinux.pop-es.rnp.br/$repo/os/$arch
+Server = http://mirror.ufam.edu.br/archlinux/$repo/os/$arch
+Server = http://mirror.ufscar.br/archlinux/$repo/os/$arch
+" >> /etc/pacman.d/mirrorlist
+
 pacman -Sy --noconfirm archlinux-keyring
 
 pacstrap /mnt base base-devel
