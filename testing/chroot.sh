@@ -12,6 +12,7 @@ echo "LANG=pt_BR.UTF-8" >> /etc/locale.conf
 echo "pt_BR.UTF-8 UTF-8" >> /etc/locale.gen
 echo "pt_BR ISO-8859-1" >> /etc/locale.gen
 locale-gen
+echo "KEYMAP=br-abnt" >> /etc/vconsole.conf
 
 pacman --noconfirm --needed -S networkmanager
 systemctl enable NetworkManager
